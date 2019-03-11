@@ -1,0 +1,139 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Reviews service"
+  description: "Http service for performing data analytics on customer reviews"
+
+host: "reviews-service:8080"
+
+schemes:
+  - "http"
+
+paths:
+  /amazon/best-rated:
+    post:
+      summary: search for the best rated products within a certain period of time.
+      parameters:
+        - in: body
+          name: request as json
+          required: true
+          schema:
+            $ref: '#/definitions/BestRatedRequest'
+      responses:
+        200:
+          description: list of best rated products
+          schema:
+            type: array
+            items:
+              type: object
+              $ref: '#/definitions/BestRatedResponse'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ApiError'
+
+  /amazon/influencers:
+    post:
+      summary: search for influencer reviews that contain at least one of the phrases and match the given influencer definition
+      parameters:
+        - in: body
+          name: request as json
+          required: true
+          schema:
+            $ref: '#/definitions/InfluencersRequest'
+      responses:
+        200:
+          description: list of influencer reviews
+          schema:
+            type: array
+            items:
+              type: object
+              $ref: '#/definitions/InfluencersResponse'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ApiError'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ApiError'
+
+definitions:
+  ApiError:
+    type: object
+    properties:
+      error:
+        type: string
+        example: "An error has occured"
+
+  BestRatedRequest:
+    type: object
+    properties:
+      start:
+        type: string
+        format: date
+        example: "15.10.2011"
+      end:
+        type: string
+        format: date
+        example: "01.08.2013"
+      limit:
+        type: integer
+        example: 2
+      min_number_reviews:
+        type: integer
+        example: 2
+
+  BestRatedResponse:
+    type: object
+    properties:
+      asin:
+        type: string
+        example: "A123456789"
+        description: amazon standard identification number
+      average_rating:
+        type: number
+        example: 3.5
+        description: average rating between 0 and 5
+
+  InfluencersRequest:
+    type: object
+    properties:
+      type:
+        type: string
+        example: "influencer-reviews"
+        description: request type
+      min_helpful_votes:
+        type: integer
+        example: 1
+        description: minimum number of helpful votes
+      helpful_percentage:
+        type: number
+        example: 0.3
+        description: minimum percentage of helpful votes to total votes
+      search_phrases:
+        type: array
+        description: list of search phrases
+        items:
+          type: string
+          example: "love"
+  InfluencersResponse:
+    type: object
+    properties:
+      reviewer_id:
+        type: string
+        example: "B123456789"
+        description: Reviewer id
+      reviewer_name:
+        type: string
+        example: "John Q. Public"
+        description: Reviewer name
+      summary:
+        type: string
+        example: "Super awesome book"
+        description: Review summary
+
