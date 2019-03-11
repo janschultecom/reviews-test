@@ -7,7 +7,7 @@ Http service for data analysis on customer reviews.
 * [Discussion](#Discussion)
 * [License](#License)
 
-##Running
+## Running
 
 ### Docker
 Using docker you can just run the application with docker-compose.
@@ -30,7 +30,7 @@ You can run the application locally using sbt:
 sbt "run <file name>" 
 ```
 
-##Usage
+## Usage
 
 Use your favourite http application like httpie, curl or postman to call the service.
 
@@ -45,7 +45,7 @@ http POST http://localhost:8080/amazon/best-rated start=15.10.2011 end=01.08.201
 http POST http://localhost:8080/amazon/influencers type=influencer-reviews min_helpful_votes=1 helpful_percentage=0.3 search_phrases:='["love","hate"]'
 ```
 
-##Discussion
+## Discussion
 I tried to keep the service as simple as possible. Therefore I chose http4s as a minimal http library.
 Monix was chosen as a simple streaming library in order to not have to keep the whole file in 
 memory but avoiding a full-blown solution such as spark. For a real-world application, it might however be necessary to 
@@ -95,7 +95,7 @@ analytics/ # data analytics
 * Reviews store (currently via a file) should be abstracted, so that a database could be used.
 * Add metrics 
 
-##License
+## License
 MIT License
 
 Copyright (c) 2019 Jan Schulte
