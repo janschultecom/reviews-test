@@ -12,6 +12,9 @@ import com.janschulte.reviews.analytics.AnalyticsAlgebra
 import com.janschulte.reviews.model.{ApiError, BestRatedRequest, InfluencersRequest}
 import io.chrisdavenport.log4cats.Logger
 
+/**
+  * Constructs http routes for the analytics http service
+  */
 class Service[F[_]](analytics: AnalyticsAlgebra[F], logger: Logger[F])(implicit S: Sync[F])
   extends Http4sDsl[F] {
 

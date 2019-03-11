@@ -15,11 +15,16 @@ final case class Avg(totalVotes: Int, totalRating: Double)
 
 final case class Rating(asin: Asin, avg: Avg)
 
-
+/**
+  * [[AnalyticsAlgebra]] implementation using monix streams and file-based reviews.
+  */
 class MonixAnalytics[F[_]](file: File)
                           (implicit S: Sync[F], TL: TaskLift[F], TLi: TaskLike[F])
   extends AnalyticsAlgebra[F] {
 
+  /**
+    * Utility method for conveniently parsing the reviews file.
+    */
   private def withReviews[O](file: File)(use: Observable[Review] => Observable[O]): Observable[O] = {
 
     val resource: Observable[BufferedReader] = Observable.resourceF {
@@ -85,6 +90,9 @@ class MonixAnalytics[F[_]](file: File)
   }
 }
 
+/**
+  * Utility functions used in the stream processing.
+  */
 object MonixAnalytics {
 
   val influencerReview: (Int, Double) => Review => Boolean = (minHelpfulVotes, helpfulPercentage) =>

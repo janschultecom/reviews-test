@@ -10,6 +10,9 @@ import org.http4s.EntityDecoder
 import org.http4s.circe.jsonOf
 import cats.implicits._
 
+/**
+  * Codecs for json and http entity encoding/decoding.
+  */
 object Codecs {
 
   private val germanDateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy")
